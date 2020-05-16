@@ -1,3 +1,3 @@
 # Authorship-Attribution
 
-git add -A && git commit -m "update" && git push -u origin master
+python3 main.py --articles_per_author 12 --authors_to_keep 3
