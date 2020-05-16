@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 from os import walk
 
-import test
+import feature_extract as test
 # Scikit learn stuff
 from sklearn.metrics import *
 from sklearn.feature_extraction.text import TfidfVectorizer
