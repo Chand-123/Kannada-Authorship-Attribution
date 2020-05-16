@@ -76,15 +76,7 @@ for author in folders:
 	if authorId == AUTHORS_TO_KEEP:
 		break
 
-# print(len(vector))
-# print(len(labels))
 
-
-# vector = test.FeatureExtration(authorArticles[1],2,2)
-
-# print(vector)
-# print(labels)
-# exit(0)
 from sklearn.utils import shuffle
 vector = np.array(vector)
 labels = np.array(labels)
@@ -95,7 +87,7 @@ vector,labels = shuffle(vector,labels)
 print("\nTraining and testing...")
 # Train and get results
 accuracies, precisions, recalls, fscores, top5accuracies = [], [], [], [], []
-for i in range(10): # Train and test 5 different times and average the results
+for i in range(10): # Train and test 10 different times and average the results
 	# Split data into training and testing
 	trainData, testData, trainLabels, testLabels = train_test_split(vector, labels, test_size=0.2)
 
