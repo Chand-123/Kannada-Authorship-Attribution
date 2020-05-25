@@ -291,7 +291,6 @@ def FeatureExtration(text, winSize, step):
 
         p = CountPuncuation(chunk)
         feature.append(p)
-
         # f = CountFunctionalWords(text)
         # feature.append(f)
 
