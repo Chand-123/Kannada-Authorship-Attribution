@@ -5,10 +5,12 @@ import sys
 import argparse
 import numpy as np
 from os import walk
-
+from sklearn import svm
 import feature_extract as test
 # Scikit learn stuff
+from sklearn import linear_model
 from sklearn.metrics import *
+from sklearn.naive_bayes import GaussianNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
@@ -18,12 +20,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--articles_per_author", type=int, default = 50, help="Number of articles to use for each author. If an author has fewer number of articles, we ignore it.")
 parser.add_argument("--authors_to_keep", type=int, default = 0, help="Number of authors to use for training and testing purposes")
 parser.add_argument("--data_folder", type=str, default = "data", help="Folder where author data is kept. Each author should have a separate folder where each article should be a separate file inside the author's folder.")
+parser.add_argument("--model", type=str, default = "RandomForest", help="Training model")
 
 
 args = parser.parse_args()
 ARTICLES_PER_AUTHOR = args.articles_per_author
 AUTHORS_TO_KEEP = args.authors_to_keep
 DATA_FOLDER = args.data_folder
+MODEL = args.model
 
 def calculateTop5Accuracy(labels, predictionProbs):
 	"""
@@ -85,6 +89,7 @@ vector,labels = shuffle(vector,labels)
 
 
 print("\nTraining and testing...")
+print('ML model :',MODEL.upper(),'\n\n')
 # Train and get results
 accuracies, precisions, recalls, fscores, top5accuracies = [], [], [], [], []
 for i in range(10): # Train and test 10 different times and average the results
@@ -98,14 +103,24 @@ for i in range(10): # Train and test 10 different times and average the results
 	# testData = vectorizer.transform(testData).toarray()
 	
 	# Create a classifier instance
-	classifier = RandomForestClassifier(n_estimators = 120)
-	# classifier = KNeighborsClassifier(n_neighbors= 3)
+	if MODEL == 'RandomForest':
+		classifier = RandomForestClassifier(n_estimators = 120)
+	if MODEL == 'svm':
+		classifier =  svm.SVC(kernel='linear',probability=True)
+	if MODEL == 'NaiveBayes':
+		classifier =  GaussianNB()
+	if MODEL == 'knn':
+		classifier = KNeighborsClassifier(n_neighbors= 3)
+	
 
+	# classifier =  svm.SVC(kernel='linear',probability=True)
+	# classifier = KNeighborsClassifier(n_neighbors= 3)
 	# Train classifier
 	classifier.fit(trainData, trainLabels)
 
 	# Get test predictions
 	testPredictions = classifier.predict(testData)
+	
 	testPredictionsProbs = classifier.predict_proba(testData)
 	testTopFiveAccuracy = calculateTop5Accuracy(testLabels, testPredictionsProbs)
 

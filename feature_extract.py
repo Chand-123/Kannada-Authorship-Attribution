@@ -283,18 +283,12 @@ def FeatureExtration(text, winSize, step):
         mean = (Avg_SentLenghtByWord(chunk))
         feature.append(mean)
 
-        # meanSyllable = Avg_Syllable_per_Word(chunk)
-        # feature.append(meanSyllable)
-
         means = CountSpecialCharacter(chunk)
         feature.append(means)
 
         p = CountPuncuation(chunk)
         feature.append(p)
-        # f = CountFunctionalWords(text)
-        # feature.append(f)
-
-        # VOCABULARY RICHNESS FEATURES
+    
 
         TTratio = typeTokenRatio(chunk)
         feature.append(TTratio)
@@ -318,21 +312,6 @@ def FeatureExtration(text, winSize, step):
 
         Shannon = ShannonEntropy(text)
         feature.append(Shannon)
-
-        # READIBILTY FEATURES
-        # FR = FleschReadingEase(chunk, winSize)
-        # feature.append(FR)
-
-        # FC = FleschCincadeGradeLevel(chunk, winSize)
-        # feature.append(FC)
-
-        # # also quite a different
-        # D = dale_chall_readability_formula(chunk, winSize)
-        # feature.append(D)
-
-        # quite a difference
-        # G = GunningFoxIndex(chunk, winSize)
-        # feature.append(G)
 
         vector.append(feature)
     return vector
