@@ -15,10 +15,8 @@ from sklearn.preprocessing import StandardScaler
 
 import nltk
 
-nltk.download('cmudict')
-nltk.download('stopwords')
 
-style.use("ggplot")
+
 cmuDictionary = None
 
 

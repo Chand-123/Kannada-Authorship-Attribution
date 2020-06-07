@@ -15,12 +15,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://hackathon-ab821.firebaseio.com/', None)
+
 # Parsing arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("--articles_per_author", type=int, default = 50, help="Number of articles to use for each author. If an author has fewer number of articles, we ignore it.")
 parser.add_argument("--authors_to_keep", type=int, default = 0, help="Number of authors to use for training and testing purposes")
 parser.add_argument("--data_folder", type=str, default = "data", help="Folder where author data is kept. Each author should have a separate folder where each article should be a separate file inside the author's folder.")
 parser.add_argument("--model", type=str, default = "RandomForest", help="Training model")
+parser.add_argument("--doc", type=str, default = "test.txt", help="Testing input")
+parser.add_argument("--id", type=int, default = 5, help="id")
 
 
 args = parser.parse_args()
@@ -28,6 +33,8 @@ ARTICLES_PER_AUTHOR = args.articles_per_author
 AUTHORS_TO_KEEP = args.authors_to_keep
 DATA_FOLDER = args.data_folder
 MODEL = args.model
+DOC = args.doc
+ID = args.id
 
 def calculateTop5Accuracy(labels, predictionProbs):
 	"""
@@ -80,6 +87,19 @@ for author in folders:
 	if authorId == AUTHORS_TO_KEEP:
 		break
 
+
+temp_vector = []
+test_vector = []
+test_labels = []
+data = open(DOC,"r").readlines()
+data = ''.join(str(line) for line in data)
+temp_vector=test.FeatureExtration(data,15,4)
+test_vector += temp_vector
+for K in range(len(temp_vector)):
+	test_labels.append(ID)
+# print(test_vector)
+# print(data)
+# print(temp_vector)
 
 from sklearn.utils import shuffle
 vector = np.array(vector)
@@ -138,5 +158,17 @@ for i in range(10): # Train and test 10 different times and average the results
 	fscores.append(fscore) 
 	top5accuracies.append(testTopFiveAccuracy)
 	
-
 print("Accuracy: ",round(max(np.mean(accuracies), np.mean(precisions), np.mean(recalls), np.mean(fscores)),2))
+
+testPredictions = classifier.predict(test_vector)
+testPredictionsProbs = classifier.predict_proba(test_vector)
+accuracy = round(accuracy_score(test_labels, testPredictions) * 100, 2)
+
+if ID < 4:
+	print('\n\n\n')
+	print('Prediction of Author ID \n0. somashekar\n1. Hrudayashiva\n2. ravi belegere\n\n')
+	print(testPredictions)
+	print('\n\nPrediction vector\n')
+	print(testPredictionsProbs)
+	print('\n\nAccuracy of test doc:', accuracy)
+
