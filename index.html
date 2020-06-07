@@ -34,7 +34,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark mx-background-top-linear">
     <div class="container">
-      <a class="navbar-brand" href="index.html" style="text-transform: uppercase;"> Kannada</a>
+      <a class="navbar-brand" href="index.html" style="text-transform: uppercase;"> Authorship Identification</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -147,7 +147,7 @@
   var event_listener = firebase.database().ref('Train')
   event_listener.on('child_changed', function(snapshot) {
     console.log(snapshot.val());
-    if (snapshot.val().includes('trained'))
+    if (snapshot.val().includes('trained') && snapshot.val() !== 'trained')
     {
       document.getElementById('startTrain').innerHTML = "Completed";
       document.getElementById("startTrain").style.backgroundColor = "green"
@@ -180,7 +180,7 @@
       result_div = document.getElementById('result')
       text_line = document.createElement("h5")
       if(snapshot.val().includes('_author'))
-      text_line.innerHTML = 'Author Name: '+snapshot.val().replace('_author','')
+      text_line.innerHTML = 'Author Name: '+snapshot.val().replace('_author','').split('_').join('')
       else
       text_line.innerHTML = snapshot.val()
       result_div.appendChild(text_line)
@@ -207,11 +207,13 @@
   {
     var text1 = document.getElementById('inlineFormInputGroup').value
     console.log(text1)
+    document.getElementById('result').innerHTML='';
     var ref = firebase.database().ref("Train/");
     ref.set ({
 			status : "trained",
       text: text1
 		});
+
   }
 </script>
 

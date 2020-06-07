@@ -227,7 +227,7 @@ def Train():
 	print("Accuracy: ",best_accuracy)
 	return temp_classifier,best_accuracy
 
-
+count=1
 def Test(classifier):
 	temp_vector = []
 	test_vector = []
@@ -249,11 +249,14 @@ def Test(classifier):
 		name = 'Hrudayashiva'
 	if(max(arr,key=arr.count) == 2):
 		name = 'Ravi belegere'
-	
+	global count
+	author_name=name+'_author'
+	for k in range(count):
+		author_name+='_'
 	Test_status = {
-			"author" : name+'_author'	
+			"author" : author_name	
 			}
-	
+	count+=1
 	# Test_status = {
 	# 		"author" : name+'_author',
 	# 		"Prediction array": str(arr),	
