@@ -2,7 +2,6 @@ import collections as coll
 import math
 import pickle
 import string
-import letters
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import style
