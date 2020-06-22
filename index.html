@@ -3,7 +3,13 @@
 <head>
 
 
-
+  <style>
+    p {
+      text-align: center;
+      font-size: 60px;
+      margin-top: 0px;
+    }
+    </style>
   <!-- msrit Assist -->
   <title>Kannada</title>
   <meta charset="UTF-8">
@@ -43,9 +49,7 @@
         <ul class="navbar-nav ml-auto">
 
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home
-              <span class="sr-only">(current)</span>
-            </a>
+           
           </li>
         </ul>
       </div>
@@ -57,7 +61,10 @@
 <h2 id ="exam_head">Train ML Model</h2>
 <center>
   <div class="col-auto" >
-    <button type="button"  value="start" id='startTrain' style=''  onClick=startTrain() class="btn btn-primary mb-2">START</button>
+    <button type="button"  value="start" id='startTrain'   onClick=startTrain() class="btn btn-primary mb-2">START</button>
+    
+    <p id="demo"></p>
+    <br>
     <div id="train_div">
         
     </div>
@@ -155,6 +162,7 @@
       train_div.innerHTML = "Training Completed Successfully! Accuracy rate: "+ snapshot.val().replace('trained_','')
       
       document.getElementById('examf1').style.display = "block";
+      document.getElementById('demo').style.display = "none";
     }
 });
   
@@ -200,6 +208,32 @@
 		});
 
     console.log('hey')
+    var countDownDate = addMinutes(83);
+    console.log(countDownDate)
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "";
+  }
+}, 1000);
     
     
   }
@@ -215,6 +249,13 @@
 		});
 
   }
+  function addMinutes(minutes) {
+    var d = new Date();
+    var n = d.getTime();
+    console.log(n + minutes*1000)
+    return (n + minutes*1000);
+}
+
 </script>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
