@@ -292,11 +292,9 @@ def FeatureExtration(text, winSize, step):
 
         HonoreMeasureR, hapax = hapaxLegemena(chunk)
         feature.append(hapax)
-        feature.append(HonoreMeasureR)
 
         SichelesMeasureS, dihapax = hapaxDisLegemena(chunk)
         feature.append(dihapax)
-        feature.append(SichelesMeasureS)
 
         YuleK = YulesCharacteristicK(chunk)
         feature.append(YuleK)
